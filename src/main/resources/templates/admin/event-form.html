@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head(${formTitle})}"></head>
+<body><nav th:replace="~{fragments/layout :: nav}"></nav>
+<main class="container py-5"><a th:href="@{/admin/events}">← Back to event management</a><div class="form-card mt-3"><p class="eyebrow">Administration</p><h1 class="page-title mb-4" th:text="${formTitle}">Create event</h1>
+    <form method="post" th:action="${formAction}" th:object="${eventForm}">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+        <div class="alert alert-danger" th:if="${#fields.hasGlobalErrors()}"><p th:each="error : ${#fields.globalErrors()}" th:text="${error}"></p></div>
+        <div class="row g-3"><div class="col-md-8"><label class="form-label">Title</label><input class="form-control" th:field="*{title}"><small class="text-danger" th:errors="*{title}"></small></div>
+            <div class="col-md-4"><label class="form-label">Category</label><select class="form-select" th:field="*{category}"><option value="">Choose...</option><option value="Technical">Technical</option><option value="Cultural">Cultural</option><option value="Sports">Sports</option><option value="Workshop">Workshop</option><option value="Seminar">Seminar</option><option value="Hackathon">Hackathon</option></select><small class="text-danger" th:errors="*{category}"></small></div>
+            <div class="col-12"><label class="form-label">Description</label><textarea class="form-control" rows="4" th:field="*{description}"></textarea></div>
+            <div class="col-md-4"><label class="form-label">Date</label><input class="form-control" type="date" th:field="*{eventDate}"><small class="text-danger" th:errors="*{eventDate}"></small></div>
+            <div class="col-md-4"><label class="form-label">Start time</label><input class="form-control" type="time" th:field="*{startTime}"><small class="text-danger" th:errors="*{startTime}"></small></div>
+            <div class="col-md-4"><label class="form-label">End time</label><input class="form-control" type="time" th:field="*{endTime}"><small class="text-danger" th:errors="*{endTime}"></small></div>
+            <div class="col-md-8"><label class="form-label">Venue</label><input class="form-control" th:field="*{venue}"><small class="text-danger" th:errors="*{venue}"></small></div>
+            <div class="col-md-4"><label class="form-label">Maximum capacity</label><input class="form-control" type="number" min="1" th:field="*{capacity}"><small class="text-danger" th:errors="*{capacity}"></small></div>
+        </div><button class="btn btn-primary mt-4" type="submit" th:text="${formTitle}">Save event</button>
+    </form>
+</div></main><footer th:replace="~{fragments/layout :: footer}"></footer></body>
+</html>

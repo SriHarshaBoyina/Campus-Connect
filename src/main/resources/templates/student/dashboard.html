@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Student dashboard')}"></head>
+<body><nav th:replace="~{fragments/layout :: nav}"></nav><div th:replace="~{fragments/layout :: alerts}"></div>
+<main class="container py-5">
+    <div class="hero-banner mb-5"><p class="eyebrow text-white-50">Student dashboard</p><h1>Good to see you, <span th:text="${user.name}">Student</span>.</h1>
+        <p class="mb-0 text-white-50">Find something meaningful to do on campus today.</p></div>
+    <div class="d-flex justify-content-between align-items-center mb-3"><h2 class="h4">Upcoming events</h2><a th:href="@{/events}">View all</a></div>
+    <div class="row g-4 mb-5"><div class="col-md-6 col-xl-4" th:each="event, stat : ${upcomingEvents}" th:if="${stat.index < 3}">
+        <article class="event-card h-100"><div class="event-date"><strong th:text="${#temporals.format(event.eventDate, 'dd')}">15</strong><span th:text="${#temporals.format(event.eventDate, 'MMM')}">JAN</span></div>
+            <h3 class="h5 mt-3" th:text="${event.title}">Event</h3><p class="text-secondary line-clamp" th:text="${event.description}">Description</p>
+            <a class="btn btn-sm btn-outline-primary stretched-link" th:href="@{/events/{id}(id=${event.id})}">Explore</a></article>
+    </div></div>
+    <div class="d-flex justify-content-between align-items-center mb-3"><h2 class="h4">Your registrations</h2><a th:href="@{/student/registrations}">Manage all</a></div>
+    <div class="table-responsive card border-0 shadow-sm"><table class="table align-middle mb-0"><thead><tr><th>Event</th><th>Date</th><th>Status</th></tr></thead>
+        <tbody><tr th:each="registration : ${registrations}"><td th:text="${registration.event.title}">Event</td><td th:text="${#temporals.format(registration.event.eventDate, 'dd MMM yyyy')}">Date</td>
+            <td><span class="badge rounded-pill" th:classappend="${registration.status.name() == 'REGISTERED' ? 'text-bg-success' : 'text-bg-secondary'}" th:text="${registration.status}">REGISTERED</span></td></tr>
+        <tr th:if="${#lists.isEmpty(registrations)}"><td colspan="3" class="text-center text-secondary py-4">You have no registrations yet.</td></tr></tbody>
+    </table></div>
+</main><footer th:replace="~{fragments/layout :: footer}"></footer></body>
+</html>
